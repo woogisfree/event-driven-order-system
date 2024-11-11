@@ -18,9 +18,19 @@ repositories {
 }
 
 dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter-web'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+	// Spring Boot Starter
+	implementation 'org.springframework.boot:spring-boot-starter'
+	implementation 'org.springframework.boot:spring-boot-starter-web' // WEB
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa' //JPA
+	implementation 'org.springframework.boot:spring-boot-starter-validation' // Validation
+	testImplementation 'org.springframework.boot:spring-boot-starter-test' // JUnit 5 include
+
+	// PostgreSQL Driver
+	runtimeOnly 'org.postgresql:postgresql'
+
+	// Lombok
+	compileOnly 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok'
 }
 
 tasks.named('test') {
