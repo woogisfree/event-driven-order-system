@@ -3,11 +3,13 @@ services:
     image: postgres:16.4-alpine3.20
     restart: always
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgrespw
-      POSTGRES_DB: event_driven_order_system
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
     ports:
       - "5433:5432"
     volumes:
-      - /Users/jin/Desktop/career/side-projects/docker-volume/event-driven-order-system:/var/lib/postgresql/data
+      - event-driven-order-system-data:/var/lib/postgresql/data
     container_name: event-driven-order-system-db
+volumes:
+    event-driven-order-system-data:
