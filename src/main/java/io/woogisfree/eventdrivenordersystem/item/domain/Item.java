@@ -19,4 +19,21 @@ public class Item {
     private String name;
     private int price;
     private int stockQuantity;
+
+    public Item(String name, int price, int stockQuantity) {
+        this.name = name;
+        this.price = price;
+        this.stockQuantity = stockQuantity;
+    }
+
+    public void reduceStock(int count) {
+        if (this.stockQuantity < count) {
+            throw new IllegalArgumentException("Not enough stock for item : " + name);
+        }
+        this.stockQuantity -= count;
+    }
+
+    public void addStock(int count) {
+        this.stockQuantity += count;
+    }
 }

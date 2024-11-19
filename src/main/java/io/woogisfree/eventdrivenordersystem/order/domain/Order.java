@@ -35,4 +35,35 @@ public class Order {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private OrderStatus status;
+
+    public static Order createOrder(Member member, List<OrderItem> orderItems) {
+        Order order = new Order();
+        order.member = member;
+        order.orderDate = LocalDateTime.now();
+        order.status = OrderStatus.ORDERED;
+        for (OrderItem orderItem : orderItems) {
+            order.addOrderItem(orderItem);
+        }
+        return order;
+    }
+
+    private void addOrderItem(OrderItem orderItem) {
+        orderItems.add(orderItem);
+    }
+
+    public void cancel() {
+        if (status == OrderStatus.DELIVERED) {
+            throw new IllegalStateException("Cannot cancel delivered order");
+        }
+        this.status = OrderStatus.CANCELLED;
+        for (OrderItem orderItem : orderItems) {
+            orderItem.cancel();
+        }
+    }
+
+    public int getTotalPrice() {
+        return orderItems.stream()
+                .mapToInt(OrderItem::getTotalPrice)
+                .sum();
+    }
 }

@@ -28,6 +28,23 @@ public class OrderItem {
     private Order order;
 
     private int orderPrice;
-
     private int count;
+
+    public static OrderItem createOrderItem(Item item, int count, Order order) {
+        item.reduceStock(count);
+        OrderItem orderItem = new OrderItem();
+        orderItem.item = item;
+        orderItem.orderPrice = item.getPrice();
+        orderItem.count = count;
+        orderItem.order = order;
+        return orderItem;
+    }
+
+    public void cancel() {
+        item.addStock(count);
+    }
+
+    public int getTotalPrice() {
+        return orderPrice * count;
+    }
 }
