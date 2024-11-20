@@ -21,6 +21,7 @@ public class Member {
 
     @Column(unique = true)
     private String name;
+    private String address;
 
     @OneToMany(mappedBy = "member")
     private List<Order> orders = new ArrayList<>();
