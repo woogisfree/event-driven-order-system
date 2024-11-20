@@ -1,4 +1,4 @@
-package io.woogisfree.eventdrivenordersystem.exception;
+package io.woogisfree.eventdrivenordersystem.item.exception;
 
 public class NotEnoughStockException extends RuntimeException {
 

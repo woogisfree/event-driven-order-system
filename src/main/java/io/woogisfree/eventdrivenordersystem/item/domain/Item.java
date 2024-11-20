@@ -1,7 +1,7 @@
 package io.woogisfree.eventdrivenordersystem.item.domain;
 
 
-import io.woogisfree.eventdrivenordersystem.exception.NotEnoughStockException;
+import io.woogisfree.eventdrivenordersystem.item.exception.NotEnoughStockException;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
