@@ -1,6 +1,7 @@
 package io.woogisfree.eventdrivenordersystem.item.domain;
 
 
+import io.woogisfree.eventdrivenordersystem.exception.NotEnoughStockException;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -27,10 +28,11 @@ public class Item {
     }
 
     public void reduceStock(int count) {
-        if (this.stockQuantity < count) {
-            throw new IllegalArgumentException("Not enough stock for item : " + name);
+        int restStock = this.stockQuantity - count;
+        if (restStock < 0) {
+            throw new NotEnoughStockException("Not enough stock for item : " + name);
         }
-        this.stockQuantity -= count;
+        this.stockQuantity = restStock;
     }
 
     public void addStock(int count) {
