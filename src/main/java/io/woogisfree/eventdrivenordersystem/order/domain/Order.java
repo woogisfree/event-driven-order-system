@@ -36,7 +36,7 @@ public class Order {
     @Column(nullable = false)
     private OrderStatus status;
 
-    public static Order createOrder(Member member, List<OrderItem> orderItems) {
+    public static Order createOrder(Member member, OrderItem... orderItems) {
         Order order = new Order();
         order.member = member;
         order.orderDate = LocalDateTime.now();
