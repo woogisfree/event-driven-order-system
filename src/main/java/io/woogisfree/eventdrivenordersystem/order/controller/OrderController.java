@@ -11,7 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RequestMapping("/api/orders")
 @RestController
@@ -35,7 +34,7 @@ public class OrderController {
     @GetMapping("/{orderId}")
     public ResponseEntity<OrderResponse> findOrder(@PathVariable Long orderId) {
         Order order = orderService.findOrder(orderId);
-        OrderResponse response = convertToOrderResponse(order);
+        OrderResponse response = orderService.convertToOrderResponse(order);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
@@ -43,7 +42,7 @@ public class OrderController {
     public ResponseEntity<List<OrderResponse>> findOrders(@PathVariable Long memberId) {
         List<Order> orders = orderService.findOrders(memberId);
         List<OrderResponse> response = orders.stream()
-                .map(this::convertToOrderResponse)
+                .map(orderService::convertToOrderResponse)
                 .toList();
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
@@ -52,23 +51,5 @@ public class OrderController {
     public ResponseEntity<Void> deleteOrder(@PathVariable Long orderId) {
         orderService.deleteOrder(orderId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-    }
-
-    private OrderResponse convertToOrderResponse(Order order) {
-        return OrderResponse.builder()
-                .orderId(order.getId())
-                .memberId(order.getMember().getId())
-                .orderDate(order.getOrderDate())
-                .status(order.getStatus())
-                .orderItems(order.getOrderItems().stream()
-                        .map(orderItem -> OrderResponse.OrderItemResponse.builder()
-                                .itemId(orderItem.getItem().getId())
-                                .itemName(orderItem.getItem().getName())
-                                .orderPrice(orderItem.getOrderPrice())
-                                .count(orderItem.getCount())
-                                .totalPrice(orderItem.getTotalPrice())
-                                .build())
-                        .collect(Collectors.toList()))
-                .build();
     }
 }

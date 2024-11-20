@@ -7,12 +7,14 @@ import io.woogisfree.eventdrivenordersystem.member.domain.Member;
 import io.woogisfree.eventdrivenordersystem.member.repository.MemberRepository;
 import io.woogisfree.eventdrivenordersystem.order.domain.Order;
 import io.woogisfree.eventdrivenordersystem.order.domain.OrderItem;
+import io.woogisfree.eventdrivenordersystem.order.dto.OrderResponse;
 import io.woogisfree.eventdrivenordersystem.order.repository.OrderRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Transactional(readOnly = true)
 @Service
@@ -69,5 +71,24 @@ public class OrderServiceImpl implements OrderService {
                 }, () -> {
                     throw new NotFoundException("Order with ID " + orderId + " does not exist.");
                 });
+    }
+
+    @Override
+    public OrderResponse convertToOrderResponse(Order order) {
+        return OrderResponse.builder()
+                .orderId(order.getId())
+                .memberId(order.getMember().getId())
+                .orderDate(order.getOrderDate())
+                .status(order.getStatus())
+                .orderItems(order.getOrderItems().stream()
+                        .map(orderItem -> OrderResponse.OrderItemResponse.builder()
+                                .itemId(orderItem.getItem().getId())
+                                .itemName(orderItem.getItem().getName())
+                                .orderPrice(orderItem.getOrderPrice())
+                                .count(orderItem.getCount())
+                                .totalPrice(orderItem.getTotalPrice())
+                                .build())
+                        .collect(Collectors.toList()))
+                .build();
     }
 }

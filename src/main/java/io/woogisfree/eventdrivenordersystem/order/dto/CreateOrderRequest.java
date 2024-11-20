@@ -1,6 +1,6 @@
 package io.woogisfree.eventdrivenordersystem.order.dto;
 
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,10 +9,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CreateOrderRequest {
-    @NotNull
+    @NotBlank
     private Long memberId;
-    @NotNull
+    @NotBlank
     private Long itemId;
-    @NotNull
+    @NotBlank
     private int count;
 }
