@@ -1,5 +1,6 @@
 package io.woogisfree.eventdrivenordersystem.order.domain;
 
+import io.woogisfree.eventdrivenordersystem.common.BaseTimeEntity;
 import io.woogisfree.eventdrivenordersystem.item.domain.Item;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -12,7 +13,7 @@ import static jakarta.persistence.FetchType.LAZY;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Entity
-public class OrderItem {
+public class OrderItem extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

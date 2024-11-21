@@ -1,5 +1,6 @@
 package io.woogisfree.eventdrivenordersystem.order.domain;
 
+import io.woogisfree.eventdrivenordersystem.common.BaseEntity;
 import io.woogisfree.eventdrivenordersystem.member.domain.Member;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -16,7 +17,7 @@ import static jakarta.persistence.FetchType.LAZY;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Entity
-public class Order {
+public class Order extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -1,5 +1,6 @@
 package io.woogisfree.eventdrivenordersystem.member.domain;
 
+import io.woogisfree.eventdrivenordersystem.common.BaseEntity;
 import io.woogisfree.eventdrivenordersystem.order.domain.Order;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -12,7 +13,7 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Entity
-public class Member {
+public class Member extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -1,6 +1,7 @@
 package io.woogisfree.eventdrivenordersystem.item.domain;
 
 
+import io.woogisfree.eventdrivenordersystem.common.BaseTimeEntity;
 import io.woogisfree.eventdrivenordersystem.item.exception.NotEnoughStockException;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -11,7 +12,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Entity
-public class Item {
+public class Item extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
