@@ -4,6 +4,7 @@ package io.woogisfree.eventdrivenordersystem.item.domain;
 import io.woogisfree.eventdrivenordersystem.item.exception.NotEnoughStockException;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -21,7 +22,14 @@ public class Item {
     private int price;
     private int stockQuantity;
 
+    @Builder
     public Item(String name, int price, int stockQuantity) {
+        this.name = name;
+        this.price = price;
+        this.stockQuantity = stockQuantity;
+    }
+
+    public void update(String name, int price, int stockQuantity) {
         this.name = name;
         this.price = price;
         this.stockQuantity = stockQuantity;
