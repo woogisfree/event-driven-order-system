@@ -1,5 +1,6 @@
 package io.woogisfree.eventdrivenordersystem.item.controller;
 
+import io.woogisfree.eventdrivenordersystem.common.ApiResponse;
 import io.woogisfree.eventdrivenordersystem.item.domain.Item;
 import io.woogisfree.eventdrivenordersystem.item.dto.ItemResponse;
 import io.woogisfree.eventdrivenordersystem.item.dto.SaveItemRequest;
@@ -20,13 +21,13 @@ public class ItemController {
     private final ItemService itemService;
 
     @PostMapping
-    public ResponseEntity<Long> saveItem(@RequestBody SaveItemRequest request) {
+    public ResponseEntity<ApiResponse<Long>> saveItem(@RequestBody SaveItemRequest request) {
         Long itemId = itemService.saveItem(request.getName(), request.getPrice(), request.getStockQuantity());
-        return new ResponseEntity<>(itemId, HttpStatus.CREATED);
+        return new ResponseEntity<>(ApiResponse.success(itemId, "Item created successfully"), HttpStatus.CREATED);
     }
 
     @GetMapping("/{itemId}")
-    public ResponseEntity<ItemResponse> findItem(@PathVariable Long itemId) {
+    public ResponseEntity<ApiResponse<ItemResponse>> findItem(@PathVariable("itemId") Long itemId) {
         Item item = itemService.findItem(itemId);
         ItemResponse response = ItemResponse.builder()
                 .itemId(item.getId())
@@ -34,11 +35,11 @@ public class ItemController {
                 .price(item.getPrice())
                 .stockQuantity(item.getStockQuantity())
                 .build();
-        return ResponseEntity.ok(response);
+        return ResponseEntity.ok(ApiResponse.success(response, "Item found successfully"));
     }
 
     @GetMapping
-    public ResponseEntity<List<ItemResponse>> findItems() {
+    public ResponseEntity<ApiResponse<List<ItemResponse>>> findItems() {
         List<Item> items = itemService.findItems();
         List<ItemResponse> response = items.stream()
                 .map(item -> ItemResponse.builder()
@@ -48,18 +49,18 @@ public class ItemController {
                         .stockQuantity(item.getStockQuantity())
                         .build())
                 .toList();
-        return ResponseEntity.ok(response);
+        return ResponseEntity.ok(ApiResponse.success(response, "Items found successfully"));
     }
 
     @PatchMapping("/{itemId}")
-    public ResponseEntity<Void> updateItem(@PathVariable Long itemId, @RequestBody UpdateItemRequest request) {
+    public ResponseEntity<ApiResponse<Void>> updateItem(@PathVariable("itemId") Long itemId, @RequestBody UpdateItemRequest request) {
         itemService.updateItem(itemId, request.getName(), request.getPrice(), request.getStockQuantity());
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(ApiResponse.success(null, "Item updated successfully"), HttpStatus.NO_CONTENT);
     }
 
     @DeleteMapping("/{itemId}")
-    public ResponseEntity<Void> deleteItem(@PathVariable Long itemId) {
+    public ResponseEntity<ApiResponse<Void>> deleteItem(@PathVariable("itemId") Long itemId) {
         itemService.deleteItem(itemId);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(ApiResponse.success(null, "Item deleted successfully"), HttpStatus.NO_CONTENT);
     }
 }

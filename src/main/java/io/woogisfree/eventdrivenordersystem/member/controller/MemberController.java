@@ -1,5 +1,6 @@
 package io.woogisfree.eventdrivenordersystem.member.controller;
 
+import io.woogisfree.eventdrivenordersystem.common.ApiResponse;
 import io.woogisfree.eventdrivenordersystem.member.domain.Member;
 import io.woogisfree.eventdrivenordersystem.member.dto.CreateMemberRequest;
 import io.woogisfree.eventdrivenordersystem.member.dto.MemberResponse;
@@ -21,13 +22,13 @@ public class MemberController {
     private final OrderService orderService;
 
     @PostMapping
-    public ResponseEntity<Long> createMember(@Valid @RequestBody CreateMemberRequest request) {
+    public ResponseEntity<ApiResponse<Long>> createMember(@Valid @RequestBody CreateMemberRequest request) {
         Long memberId = memberService.createMember(request.getName(), request.getAddress());
-        return new ResponseEntity<>(memberId, HttpStatus.CREATED);
+        return new ResponseEntity<>(ApiResponse.success(memberId, "Member created successfully"), HttpStatus.CREATED);
     }
 
     @GetMapping("/{memberId}")
-    public ResponseEntity<MemberResponse> findMember(@PathVariable Long memberId) {
+    public ResponseEntity<ApiResponse<MemberResponse>> findMember(@PathVariable Long memberId) {
         Member member = memberService.findMemberWithOrders(memberId);
         MemberResponse memberResponse = MemberResponse.builder()
                 .id(member.getId())
@@ -37,18 +38,18 @@ public class MemberController {
                         .map(orderService::convertToOrderResponse)
                         .toList())
                 .build();
-        return new ResponseEntity<>(memberResponse, HttpStatus.OK);
+        return new ResponseEntity<>(ApiResponse.success(memberResponse, "Member found successfully"), HttpStatus.OK);
     }
 
     @PatchMapping("/{memberId}")
-    public ResponseEntity<Void> updateMember(@PathVariable Long memberId, @Valid @RequestBody UpdateMemberRequest request) {
+    public ResponseEntity<ApiResponse<Void>> updateMember(@PathVariable Long memberId, @Valid @RequestBody UpdateMemberRequest request) {
         memberService.updateMember(memberId, request.getName(), request.getAddress());
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(ApiResponse.success(null, "Member updated successfully"), HttpStatus.NO_CONTENT);
     }
 
     @DeleteMapping("/{memberId}")
-    public ResponseEntity<Void> deleteMember(@PathVariable Long memberId) {
+    public ResponseEntity<ApiResponse<Void>> deleteMember(@PathVariable Long memberId) {
         memberService.deleteMember(memberId);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(ApiResponse.success(null, "Member deleted successfully"), HttpStatus.NO_CONTENT);
     }
 }

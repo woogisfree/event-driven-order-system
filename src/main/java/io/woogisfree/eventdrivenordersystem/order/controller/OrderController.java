@@ -1,5 +1,6 @@
 package io.woogisfree.eventdrivenordersystem.order.controller;
 
+import io.woogisfree.eventdrivenordersystem.common.ApiResponse;
 import io.woogisfree.eventdrivenordersystem.order.domain.Order;
 import io.woogisfree.eventdrivenordersystem.order.dto.CreateOrderRequest;
 import io.woogisfree.eventdrivenordersystem.order.dto.OrderResponse;
@@ -20,36 +21,36 @@ public class OrderController {
     private final OrderService orderService;
 
     @PostMapping
-    public ResponseEntity<Long> createOrder(@Valid @RequestBody CreateOrderRequest request) {
+    public ResponseEntity<ApiResponse<Long>> createOrder(@Valid @RequestBody CreateOrderRequest request) {
         Long orderId = orderService.createOrder(request.getMemberId(), request.getItemId(), request.getCount());
-        return new ResponseEntity<>(orderId, HttpStatus.CREATED);
+        return new ResponseEntity<>(ApiResponse.success(orderId, "Order created successfully"), HttpStatus.CREATED);
     }
 
     @PostMapping("/{orderId}/cancel")
-    public ResponseEntity<Void> cancelOrder(@PathVariable Long orderId) {
+    public ResponseEntity<ApiResponse<Void>> cancelOrder(@PathVariable Long orderId) {
         orderService.cancelOrder(orderId);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(ApiResponse.success(null, "Order canceled successfully"), HttpStatus.NO_CONTENT);
     }
 
     @GetMapping("/{orderId}")
-    public ResponseEntity<OrderResponse> findOrder(@PathVariable Long orderId) {
+    public ResponseEntity<ApiResponse<OrderResponse>> findOrder(@PathVariable Long orderId) {
         Order order = orderService.findOrder(orderId);
         OrderResponse response = orderService.convertToOrderResponse(order);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        return new ResponseEntity<>(ApiResponse.success(response, "Order found successfully"), HttpStatus.OK);
     }
 
     @GetMapping("/{memberId}")
-    public ResponseEntity<List<OrderResponse>> findOrders(@PathVariable Long memberId) {
+    public ResponseEntity<ApiResponse<List<OrderResponse>>> findOrders(@PathVariable Long memberId) {
         List<Order> orders = orderService.findOrders(memberId);
         List<OrderResponse> response = orders.stream()
                 .map(orderService::convertToOrderResponse)
                 .toList();
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        return new ResponseEntity<>(ApiResponse.success(response, "Orders found successfully"), HttpStatus.NO_CONTENT);
     }
 
     @DeleteMapping("/{orderId}")
-    public ResponseEntity<Void> deleteOrder(@PathVariable Long orderId) {
+    public ResponseEntity<ApiResponse<Void>> deleteOrder(@PathVariable Long orderId) {
         orderService.deleteOrder(orderId);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(ApiResponse.success(null, "Order deleted successfully"), HttpStatus.NO_CONTENT);
     }
 }
