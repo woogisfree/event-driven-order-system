@@ -2,6 +2,8 @@ package io.woogisfree.eventdrivenordersystem.member.service;
 
 import io.woogisfree.eventdrivenordersystem.exception.NotFoundException;
 import io.woogisfree.eventdrivenordersystem.member.domain.Member;
+import io.woogisfree.eventdrivenordersystem.member.dto.MemberResponse;
+import io.woogisfree.eventdrivenordersystem.member.mapper.MemberMapper;
 import io.woogisfree.eventdrivenordersystem.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -13,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class MemberServiceImpl implements MemberService {
 
     private final MemberRepository memberRepository;
+    private final MemberMapper memberMapper;
 
     @Transactional
     @Override
@@ -23,9 +26,10 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public Member findMemberWithOrders(Long memberId) {
-        return memberRepository.findById(memberId)
+    public MemberResponse findMemberWithOrders(Long memberId) {
+        Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new NotFoundException("Member with ID " + memberId + " does not exist."));
+        return memberMapper.toDto(member);
     }
 
     @Transactional

@@ -2,6 +2,8 @@ package io.woogisfree.eventdrivenordersystem.item.service;
 
 import io.woogisfree.eventdrivenordersystem.exception.NotFoundException;
 import io.woogisfree.eventdrivenordersystem.item.domain.Item;
+import io.woogisfree.eventdrivenordersystem.item.dto.ItemResponse;
+import io.woogisfree.eventdrivenordersystem.item.mapper.ItemMapper;
 import io.woogisfree.eventdrivenordersystem.item.repository.ItemRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,6 +17,7 @@ import java.util.List;
 public class ItemServiceImpl implements ItemService {
 
     private final ItemRepository itemRepository;
+    private final ItemMapper itemMapper;
 
     @Transactional
     @Override
@@ -28,14 +31,16 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public Item findItem(Long itemId) {
-        return itemRepository.findById(itemId)
+    public ItemResponse findItem(Long itemId) {
+        Item item = itemRepository.findById(itemId)
                 .orElseThrow(() -> new NotFoundException("Item with ID " + itemId + " does not exist."));
+        return itemMapper.toDto(item);
     }
 
     @Override
-    public List<Item> findItems() {
-        return itemRepository.findAll();
+    public List<ItemResponse> findItems() {
+        List<Item> items = itemRepository.findAll();
+        return itemMapper.toDtoList(items);
     }
 
     @Transactional

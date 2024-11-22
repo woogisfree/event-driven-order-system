@@ -1,6 +1,6 @@
 package io.woogisfree.eventdrivenordersystem.item.service;
 
-import io.woogisfree.eventdrivenordersystem.item.domain.Item;
+import io.woogisfree.eventdrivenordersystem.item.dto.ItemResponse;
 
 import java.util.List;
 
@@ -8,9 +8,9 @@ public interface ItemService {
 
     Long saveItem(String name, int price, int stockQuantity);
 
-    Item findItem(Long itemId);
+    ItemResponse findItem(Long itemId);
 
-    List<Item> findItems();
+    List<ItemResponse> findItems();
 
     void updateItem(Long itemId, String name, int price, int stockQuantity);
 

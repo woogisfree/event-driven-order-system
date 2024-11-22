@@ -1,7 +1,6 @@
 package io.woogisfree.eventdrivenordersystem.order.controller;
 
 import io.woogisfree.eventdrivenordersystem.common.ApiResponse;
-import io.woogisfree.eventdrivenordersystem.order.domain.Order;
 import io.woogisfree.eventdrivenordersystem.order.dto.CreateOrderRequest;
 import io.woogisfree.eventdrivenordersystem.order.dto.OrderResponse;
 import io.woogisfree.eventdrivenordersystem.order.service.OrderService;
@@ -34,17 +33,13 @@ public class OrderController {
 
     @GetMapping("/{orderId}")
     public ResponseEntity<ApiResponse<OrderResponse>> findOrder(@PathVariable Long orderId) {
-        Order order = orderService.findOrder(orderId);
-        OrderResponse response = orderService.convertToOrderResponse(order);
+        OrderResponse response = orderService.findOrder(orderId);
         return new ResponseEntity<>(ApiResponse.success(response, "Order found successfully"), HttpStatus.OK);
     }
 
     @GetMapping("/{memberId}")
     public ResponseEntity<ApiResponse<List<OrderResponse>>> findOrders(@PathVariable Long memberId) {
-        List<Order> orders = orderService.findOrders(memberId);
-        List<OrderResponse> response = orders.stream()
-                .map(orderService::convertToOrderResponse)
-                .toList();
+        List<OrderResponse> response = orderService.findOrders(memberId);
         return new ResponseEntity<>(ApiResponse.success(response, "Orders found successfully"), HttpStatus.NO_CONTENT);
     }
 

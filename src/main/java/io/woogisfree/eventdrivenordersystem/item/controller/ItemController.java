@@ -1,7 +1,6 @@
 package io.woogisfree.eventdrivenordersystem.item.controller;
 
 import io.woogisfree.eventdrivenordersystem.common.ApiResponse;
-import io.woogisfree.eventdrivenordersystem.item.domain.Item;
 import io.woogisfree.eventdrivenordersystem.item.dto.ItemResponse;
 import io.woogisfree.eventdrivenordersystem.item.dto.SaveItemRequest;
 import io.woogisfree.eventdrivenordersystem.item.dto.UpdateItemRequest;
@@ -28,27 +27,13 @@ public class ItemController {
 
     @GetMapping("/{itemId}")
     public ResponseEntity<ApiResponse<ItemResponse>> findItem(@PathVariable("itemId") Long itemId) {
-        Item item = itemService.findItem(itemId);
-        ItemResponse response = ItemResponse.builder()
-                .itemId(item.getId())
-                .name(item.getName())
-                .price(item.getPrice())
-                .stockQuantity(item.getStockQuantity())
-                .build();
+        ItemResponse response = itemService.findItem(itemId);
         return ResponseEntity.ok(ApiResponse.success(response, "Item found successfully"));
     }
 
     @GetMapping
     public ResponseEntity<ApiResponse<List<ItemResponse>>> findItems() {
-        List<Item> items = itemService.findItems();
-        List<ItemResponse> response = items.stream()
-                .map(item -> ItemResponse.builder()
-                        .itemId(item.getId())
-                        .name(item.getName())
-                        .price(item.getPrice())
-                        .stockQuantity(item.getStockQuantity())
-                        .build())
-                .toList();
+        List<ItemResponse> response = itemService.findItems();
         return ResponseEntity.ok(ApiResponse.success(response, "Items found successfully"));
     }
 
