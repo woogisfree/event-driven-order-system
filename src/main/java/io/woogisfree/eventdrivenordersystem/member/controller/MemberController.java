@@ -25,20 +25,20 @@ public class MemberController {
     }
 
     @GetMapping("/{memberId}")
-    public ResponseEntity<ApiResponse<MemberResponse>> findMember(@PathVariable Long memberId) {
+    public ResponseEntity<ApiResponse<MemberResponse>> findMember(@PathVariable("memberId") Long memberId) {
         MemberResponse response = memberService.findMemberWithOrders(memberId);
         return new ResponseEntity<>(ApiResponse.success(response, "Member found successfully"), HttpStatus.OK);
     }
 
     @PatchMapping("/{memberId}")
-    public ResponseEntity<ApiResponse<Void>> updateMember(@PathVariable Long memberId, @Valid @RequestBody UpdateMemberRequest request) {
+    public ResponseEntity<ApiResponse<Void>> updateMember(@PathVariable("memberId") Long memberId, @Valid @RequestBody UpdateMemberRequest request) {
         memberService.updateMember(memberId, request.getName(), request.getAddress());
-        return new ResponseEntity<>(ApiResponse.success(null, "Member updated successfully"), HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(ApiResponse.noContent(null, "Member updated successfully"), HttpStatus.NO_CONTENT);
     }
 
     @DeleteMapping("/{memberId}")
-    public ResponseEntity<ApiResponse<Void>> deleteMember(@PathVariable Long memberId) {
+    public ResponseEntity<ApiResponse<Void>> deleteMember(@PathVariable("memberId") Long memberId) {
         memberService.deleteMember(memberId);
-        return new ResponseEntity<>(ApiResponse.success(null, "Member deleted successfully"), HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(ApiResponse.noContent(null, "Member deleted successfully"), HttpStatus.NO_CONTENT);
     }
 }

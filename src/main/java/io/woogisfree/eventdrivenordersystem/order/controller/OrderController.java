@@ -26,26 +26,26 @@ public class OrderController {
     }
 
     @PostMapping("/{orderId}/cancel")
-    public ResponseEntity<ApiResponse<Void>> cancelOrder(@PathVariable Long orderId) {
+    public ResponseEntity<ApiResponse<Void>> cancelOrder(@PathVariable("orderId") Long orderId) {
         orderService.cancelOrder(orderId);
-        return new ResponseEntity<>(ApiResponse.success(null, "Order canceled successfully"), HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(ApiResponse.noContent(null, "Order canceled successfully"), HttpStatus.NO_CONTENT);
     }
 
     @GetMapping("/{orderId}")
-    public ResponseEntity<ApiResponse<OrderResponse>> findOrder(@PathVariable Long orderId) {
+    public ResponseEntity<ApiResponse<OrderResponse>> findOrder(@PathVariable("orderId") Long orderId) {
         OrderResponse response = orderService.findOrder(orderId);
         return new ResponseEntity<>(ApiResponse.success(response, "Order found successfully"), HttpStatus.OK);
     }
 
     @GetMapping("/{memberId}")
-    public ResponseEntity<ApiResponse<List<OrderResponse>>> findOrders(@PathVariable Long memberId) {
+    public ResponseEntity<ApiResponse<List<OrderResponse>>> findOrders(@PathVariable("memberId") Long memberId) {
         List<OrderResponse> response = orderService.findOrders(memberId);
-        return new ResponseEntity<>(ApiResponse.success(response, "Orders found successfully"), HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(ApiResponse.noContent(response, "Orders found successfully"), HttpStatus.NO_CONTENT);
     }
 
     @DeleteMapping("/{orderId}")
-    public ResponseEntity<ApiResponse<Void>> deleteOrder(@PathVariable Long orderId) {
+    public ResponseEntity<ApiResponse<Void>> deleteOrder(@PathVariable("orderId") Long orderId) {
         orderService.deleteOrder(orderId);
-        return new ResponseEntity<>(ApiResponse.success(null, "Order deleted successfully"), HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(ApiResponse.noContent(null, "Order deleted successfully"), HttpStatus.NO_CONTENT);
     }
 }

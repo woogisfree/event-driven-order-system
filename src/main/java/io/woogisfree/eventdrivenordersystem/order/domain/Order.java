@@ -2,6 +2,7 @@ package io.woogisfree.eventdrivenordersystem.order.domain;
 
 import io.woogisfree.eventdrivenordersystem.common.BaseEntity;
 import io.woogisfree.eventdrivenordersystem.member.domain.Member;
+import io.woogisfree.eventdrivenordersystem.order.exception.OrderStateException;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -54,7 +55,7 @@ public class Order extends BaseEntity {
 
     public void cancel() {
         if (status == OrderStatus.DELIVERED) {
-            throw new IllegalStateException("Cannot cancel delivered order");
+            throw new OrderStateException("Cannot cancel delivered order");
         }
         this.status = OrderStatus.CANCELLED;
         for (OrderItem orderItem : orderItems) {

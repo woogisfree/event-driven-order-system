@@ -1,8 +1,8 @@
 package io.woogisfree.eventdrivenordersystem.item.service;
 
-import io.woogisfree.eventdrivenordersystem.exception.NotFoundException;
 import io.woogisfree.eventdrivenordersystem.item.domain.Item;
 import io.woogisfree.eventdrivenordersystem.item.dto.ItemResponse;
+import io.woogisfree.eventdrivenordersystem.item.exception.ItemNotFoundException;
 import io.woogisfree.eventdrivenordersystem.item.mapper.ItemMapper;
 import io.woogisfree.eventdrivenordersystem.item.repository.ItemRepository;
 import lombok.RequiredArgsConstructor;
@@ -33,7 +33,7 @@ public class ItemServiceImpl implements ItemService {
     @Override
     public ItemResponse findItem(Long itemId) {
         Item item = itemRepository.findById(itemId)
-                .orElseThrow(() -> new NotFoundException("Item with ID " + itemId + " does not exist."));
+                .orElseThrow(() -> new ItemNotFoundException("Item with ID " + itemId + " does not exist."));
         return itemMapper.toDto(item);
     }
 
@@ -47,7 +47,7 @@ public class ItemServiceImpl implements ItemService {
     @Override
     public void updateItem(Long itemId, String name, int price, int stockQuantity) {
         Item item = itemRepository.findById(itemId)
-                .orElseThrow(() -> new NotFoundException("Item with ID " + itemId + " does not exist."));
+                .orElseThrow(() -> new ItemNotFoundException("Item with ID " + itemId + " does not exist."));
         item.update(name, price, stockQuantity);
     }
 
@@ -56,7 +56,7 @@ public class ItemServiceImpl implements ItemService {
     @Override
     public void deleteItem(Long itemId) {
         Item item = itemRepository.findById(itemId)
-                .orElseThrow(() -> new NotFoundException("Item with ID " + itemId + " does not exist."));
+                .orElseThrow(() -> new ItemNotFoundException("Item with ID " + itemId + " does not exist."));
         itemRepository.delete(item);
     }
 }

@@ -40,12 +40,12 @@ public class ItemController {
     @PatchMapping("/{itemId}")
     public ResponseEntity<ApiResponse<Void>> updateItem(@PathVariable("itemId") Long itemId, @RequestBody UpdateItemRequest request) {
         itemService.updateItem(itemId, request.getName(), request.getPrice(), request.getStockQuantity());
-        return new ResponseEntity<>(ApiResponse.success(null, "Item updated successfully"), HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(ApiResponse.noContent(null, "Item updated successfully"), HttpStatus.NO_CONTENT);
     }
 
     @DeleteMapping("/{itemId}")
     public ResponseEntity<ApiResponse<Void>> deleteItem(@PathVariable("itemId") Long itemId) {
         itemService.deleteItem(itemId);
-        return new ResponseEntity<>(ApiResponse.success(null, "Item deleted successfully"), HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(ApiResponse.noContent(null, "Item deleted successfully"), HttpStatus.NO_CONTENT);
     }
 }

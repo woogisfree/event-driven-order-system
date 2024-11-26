@@ -1,8 +1,8 @@
 package io.woogisfree.eventdrivenordersystem.member.service;
 
-import io.woogisfree.eventdrivenordersystem.exception.NotFoundException;
 import io.woogisfree.eventdrivenordersystem.member.domain.Member;
 import io.woogisfree.eventdrivenordersystem.member.dto.MemberResponse;
+import io.woogisfree.eventdrivenordersystem.member.exception.MemberNotFoundException;
 import io.woogisfree.eventdrivenordersystem.member.mapper.MemberMapper;
 import io.woogisfree.eventdrivenordersystem.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -28,7 +28,7 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public MemberResponse findMemberWithOrders(Long memberId) {
         Member member = memberRepository.findById(memberId)
-                .orElseThrow(() -> new NotFoundException("Member with ID " + memberId + " does not exist."));
+                .orElseThrow(() -> new MemberNotFoundException("Member with ID " + memberId + " does not exist."));
         return memberMapper.toDto(member);
     }
 
@@ -39,7 +39,7 @@ public class MemberServiceImpl implements MemberService {
                 .ifPresentOrElse(member -> {
                     member.update(name, address);
                 }, () -> {
-                    throw new NotFoundException("Member with ID " + memberId + " does not exist.");
+                    throw new MemberNotFoundException("Member with ID " + memberId + " does not exist.");
                 });
     }
 
@@ -47,7 +47,7 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public void deleteMember(Long memberId) {
         Member member = memberRepository.findById(memberId)
-                .orElseThrow(() -> new NotFoundException("Member with ID " + memberId + " does not exist."));
+                .orElseThrow(() -> new MemberNotFoundException("Member with ID " + memberId + " does not exist."));
         memberRepository.delete(member);
     }
 }
