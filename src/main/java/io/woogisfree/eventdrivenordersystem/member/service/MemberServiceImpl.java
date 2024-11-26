@@ -20,7 +20,10 @@ public class MemberServiceImpl implements MemberService {
     @Transactional
     @Override
     public Long createMember(String name, String address) {
-        Member member = new Member(name, address);
+        Member member = Member.builder()
+                .name(name)
+                .address(address)
+                .build();
         memberRepository.save(member);
         return member.getId();
     }

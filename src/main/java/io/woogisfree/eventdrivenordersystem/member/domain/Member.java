@@ -4,6 +4,7 @@ import io.woogisfree.eventdrivenordersystem.common.BaseEntity;
 import io.woogisfree.eventdrivenordersystem.order.domain.Order;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -28,7 +29,8 @@ public class Member extends BaseEntity {
     private List<Order> orders = new ArrayList<>();
 //    private List<Order> orders = Collections.synchronizedList(new ArrayList<>());
 
-    public Member(String name, String address) {
+    @Builder
+    private Member(String name, String address) {
         this.name = name;
         this.address = address;
     }

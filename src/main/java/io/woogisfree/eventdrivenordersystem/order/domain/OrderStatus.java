@@ -13,6 +13,6 @@ package io.woogisfree.eventdrivenordersystem.order.domain;
  * 9.	REFUNDED: 환불이 완료된 상태.
  */
 public enum OrderStatus {
-    ORDERED, SHIPPED, DELIVERED, CANCELLED
+    ORDERED, DELIVERED, CANCELLED
 }
 

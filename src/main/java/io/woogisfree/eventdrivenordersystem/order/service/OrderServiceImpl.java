@@ -44,7 +44,7 @@ public class OrderServiceImpl implements OrderService {
     @Transactional
     @Override
     public void cancelOrder(Long orderId) {
-        orderRepository.findById(orderId)
+        orderRepository.findOrderWithOrderItemsByOrderId(orderId)
                 .ifPresentOrElse(Order::cancel, () -> {
                     throw new OrderNotFoundException("Order with ID " + orderId + " does not exist.");
                 });
@@ -52,7 +52,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public OrderResponse findOrder(Long orderId) {
-        Order order = orderRepository.findById(orderId)
+        Order order = orderRepository.findOrderWithOrderItemsByOrderId(orderId)
                 .orElseThrow(() -> new OrderNotFoundException("Order with ID " + orderId + " does not exist."));
         return orderMapper.toOrderResponse(order);
     }
@@ -69,7 +69,7 @@ public class OrderServiceImpl implements OrderService {
     @Transactional
     @Override
     public void deleteOrder(Long orderId) {
-        orderRepository.findById(orderId)
+        orderRepository.findOrderWithOrderItemsByOrderId(orderId)
                 .ifPresentOrElse(order -> {
                     order.cancel();
                     orderRepository.delete(order);
