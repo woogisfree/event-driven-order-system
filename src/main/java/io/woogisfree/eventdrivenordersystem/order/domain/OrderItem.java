@@ -31,6 +31,10 @@ public class OrderItem extends BaseTimeEntity {
     private int orderPrice;
     private int count;
 
+    protected void assignToOrder(Order order) {
+        this.order = order;
+    }
+
     public static OrderItem createOrderItem(Item item, int orderPrice, int count) {
         OrderItem orderItem = new OrderItem();
         orderItem.item = item;
