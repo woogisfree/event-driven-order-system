@@ -96,7 +96,6 @@ class OrderRepositoryTest {
         assertThat(orders).isEmpty();
     }
 
-
     @DisplayName("주문 아이디로 주문 내역을 조회한다.")
     @Test
     void findOrderWithOrderItemsByOrderId() {
