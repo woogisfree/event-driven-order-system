@@ -62,7 +62,9 @@ class OrderRepositoryTest {
         OrderItem orderItem1 = OrderItem.createOrderItem(item1, item1.getPrice(), 5);
         OrderItem orderItem2 = OrderItem.createOrderItem(item2, item2.getPrice(), 5);
         OrderItem orderItem3 = OrderItem.createOrderItem(item3, item3.getPrice(), 5);
-        Order order = Order.createOrder(member, orderItem1, orderItem2, orderItem3);
+        List<OrderItem> orderItemList = List.of(orderItem1, orderItem2, orderItem3);
+
+        Order order = Order.createOrder(member, orderItemList);
         orderRepository.save(order);
 
         // when
@@ -72,7 +74,28 @@ class OrderRepositoryTest {
         assertThat(orders).hasSize(1);
         assertThat(orders.get(0).getId()).isEqualTo(order.getId());
         assertThat(orders.get(0).getOrderItems()).hasSize(3);
+        assertThat(orders.get(0).getOrderItems().contains(orderItem1)).isTrue();
+        assertThat(orders.get(0).getOrderItems().contains(orderItem2)).isTrue();
+        assertThat(orders.get(0).getOrderItems().contains(orderItem3)).isTrue();
     }
+
+    @DisplayName("회원의 주문 내역이 없는경우 빈 배열을 반환한다.")
+    @Test
+    void findAllByMemberIdWhenNoOrders() {
+        //given
+        Member member = Member.builder()
+                .name("member1")
+                .address("address1")
+                .build();
+        memberRepository.save(member);
+
+        //when
+        List<Order> orders = orderRepository.findAllByMemberId(member.getId());
+
+        //then
+        assertThat(orders).isEmpty();
+    }
+
 
     @DisplayName("주문 아이디로 주문 내역을 조회한다.")
     @Test
@@ -106,9 +129,10 @@ class OrderRepositoryTest {
         OrderItem orderItem1 = OrderItem.createOrderItem(item1, item1.getPrice(), 5);
         OrderItem orderItem2 = OrderItem.createOrderItem(item2, item2.getPrice(), 5);
         OrderItem orderItem3 = OrderItem.createOrderItem(item3, item3.getPrice(), 5);
-        orderItemRepository.saveAll(List.of(orderItem1, orderItem2, orderItem3));
+        List<OrderItem> orderItemList = List.of(orderItem1, orderItem2, orderItem3);
 
-        Order order = Order.createOrder(member, orderItem1, orderItem2, orderItem3);
+        orderItemRepository.saveAll(orderItemList);
+        Order order = Order.createOrder(member, orderItemList);
         orderRepository.save(order);
 
         //when

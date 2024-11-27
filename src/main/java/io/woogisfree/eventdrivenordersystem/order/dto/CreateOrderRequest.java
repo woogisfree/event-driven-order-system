@@ -6,14 +6,23 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
 public class CreateOrderRequest {
     @NotNull
     private Long memberId;
-    @NotNull
-    private Long itemId;
-    @Positive
-    private int count;
+    private List<OrderItemRequest> orderItems;
+
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class OrderItemRequest {
+        @NotNull
+        private Long itemId;
+        @Positive
+        private int count;
+    }
 }

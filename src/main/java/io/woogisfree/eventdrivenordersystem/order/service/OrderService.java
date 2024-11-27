@@ -8,6 +8,7 @@ import io.woogisfree.eventdrivenordersystem.member.exception.MemberNotFoundExcep
 import io.woogisfree.eventdrivenordersystem.member.repository.MemberRepository;
 import io.woogisfree.eventdrivenordersystem.order.domain.Order;
 import io.woogisfree.eventdrivenordersystem.order.domain.OrderItem;
+import io.woogisfree.eventdrivenordersystem.order.dto.CreateOrderRequest;
 import io.woogisfree.eventdrivenordersystem.order.dto.OrderResponse;
 import io.woogisfree.eventdrivenordersystem.order.exception.OrderNotFoundException;
 import io.woogisfree.eventdrivenordersystem.order.mapper.OrderMapper;
@@ -16,6 +17,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Transactional(readOnly = true)
@@ -29,13 +31,19 @@ public class OrderService {
     private final OrderMapper orderMapper;
 
     @Transactional
-    public Long createOrder(Long memberId, Long itemId, int count) {
+    public Long createOrder(Long memberId, List<CreateOrderRequest.OrderItemRequest> orderItems) {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new MemberNotFoundException("Member with ID " + memberId + " does not exist."));
-        Item item = itemRepository.findById(itemId)
-                .orElseThrow(() -> new ItemNotFoundException("Item with ID " + itemId + " does not exist."));
-        OrderItem orderItem = OrderItem.createOrderItem(item, item.getPrice(), count);
-        Order order = Order.createOrder(member, orderItem);
+
+        List<OrderItem> orderItemList = new ArrayList<>();
+        for (CreateOrderRequest.OrderItemRequest itemRequest : orderItems) {
+            Item item = itemRepository.findById(itemRequest.getItemId())
+                    .orElseThrow(() -> new ItemNotFoundException("Item with ID " + itemRequest.getItemId() + " does not exist."));
+
+            OrderItem orderItem = OrderItem.createOrderItem(item, item.getPrice(), itemRequest.getCount());
+            orderItemList.add(orderItem);
+        }
+        Order order = Order.createOrder(member, orderItemList);
         orderRepository.save(order);
         return order.getId();
     }

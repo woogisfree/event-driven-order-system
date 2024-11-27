@@ -23,7 +23,7 @@ public class OrderController {
 
     @PostMapping
     public ResponseEntity<ApiResponse<Long>> createOrder(@Valid @RequestBody CreateOrderRequest request) {
-        Long orderId = orderService.createOrder(request.getMemberId(), request.getItemId(), request.getCount());
+        Long orderId = orderService.createOrder(request.getMemberId(), request.getOrderItems());
         return new ResponseEntity<>(ApiResponse.success(orderId, "Order created successfully"), HttpStatus.CREATED);
     }
 
@@ -39,10 +39,10 @@ public class OrderController {
         return new ResponseEntity<>(ApiResponse.success(response, "Order found successfully"), HttpStatus.OK);
     }
 
-    @GetMapping("/{memberId}")
+    @GetMapping("/member/{memberId}")
     public ResponseEntity<ApiResponse<List<OrderResponse>>> findOrders(@PathVariable("memberId") Long memberId) {
         List<OrderResponse> response = orderService.findOrders(memberId);
-        return new ResponseEntity<>(ApiResponse.noContent(response, "Orders found successfully"), HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(ApiResponse.success(response, "Orders found successfully"), HttpStatus.OK);
     }
 
     @DeleteMapping("/{orderId}")
