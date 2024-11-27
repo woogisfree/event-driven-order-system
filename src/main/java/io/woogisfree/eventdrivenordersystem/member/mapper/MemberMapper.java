@@ -22,6 +22,4 @@ public class MemberMapper {
                         .toList())
                 .build();
     }
-
-
 }

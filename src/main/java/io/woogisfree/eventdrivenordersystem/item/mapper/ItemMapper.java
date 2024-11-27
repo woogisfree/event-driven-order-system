@@ -21,6 +21,7 @@ public class ItemMapper {
     public ItemResponse toDto(Item item) {
         if (item == null) return null;
         return ItemResponse.builder()
+                .itemId(item.getId())
                 .name(item.getName())
                 .price(item.getPrice())
                 .stockQuantity(item.getStockQuantity())

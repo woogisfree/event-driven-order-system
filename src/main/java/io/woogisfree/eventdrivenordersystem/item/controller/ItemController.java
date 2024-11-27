@@ -1,5 +1,6 @@
 package io.woogisfree.eventdrivenordersystem.item.controller;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import io.woogisfree.eventdrivenordersystem.common.ApiResponse;
 import io.woogisfree.eventdrivenordersystem.item.dto.ItemResponse;
 import io.woogisfree.eventdrivenordersystem.item.dto.SaveItemRequest;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Tag(name = "Item", description = "상품 API")
 @RequestMapping("/api/items")
 @RestController
 @RequiredArgsConstructor

@@ -1,5 +1,6 @@
 package io.woogisfree.eventdrivenordersystem.member.controller;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import io.woogisfree.eventdrivenordersystem.common.ApiResponse;
 import io.woogisfree.eventdrivenordersystem.member.dto.CreateMemberRequest;
 import io.woogisfree.eventdrivenordersystem.member.dto.MemberResponse;
@@ -11,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+@Tag(name = "Member", description = "회원 관리 API")
 @RequestMapping("/api/members")
 @RestController
 @RequiredArgsConstructor
