@@ -1,14 +1,11 @@
 package io.woogisfree.eventdrivenordersystem.item.domain;
 
-
 import io.woogisfree.eventdrivenordersystem.common.BaseTimeEntity;
 import io.woogisfree.eventdrivenordersystem.item.exception.NotEnoughStockException;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
+@ToString
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Entity

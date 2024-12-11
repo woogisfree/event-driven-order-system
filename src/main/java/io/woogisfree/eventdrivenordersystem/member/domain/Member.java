@@ -3,14 +3,12 @@ package io.woogisfree.eventdrivenordersystem.member.domain;
 import io.woogisfree.eventdrivenordersystem.common.BaseEntity;
 import io.woogisfree.eventdrivenordersystem.order.domain.Order;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@ToString
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Entity
@@ -20,8 +18,6 @@ public class Member extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "member_id")
     private Long id;
-
-    @Column(unique = true)
     private String name;
     private String address;
 

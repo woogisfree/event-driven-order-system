@@ -37,7 +37,7 @@ public class OrderService {
 
         List<OrderItem> orderItemList = new ArrayList<>();
         for (CreateOrderRequest.OrderItemRequest itemRequest : orderItems) {
-            Item item = itemRepository.findById(itemRequest.getItemId())
+            Item item = itemRepository.findByIdWithLock(itemRequest.getItemId())
                     .orElseThrow(() -> new ItemNotFoundException("Item with ID " + itemRequest.getItemId() + " does not exist."));
 
             OrderItem orderItem = OrderItem.createOrderItem(item, item.getPrice(), itemRequest.getCount());
@@ -62,7 +62,7 @@ public class OrderService {
         return orderMapper.toOrderResponse(order);
     }
 
-    public List<OrderResponse> findOrders(Long memberId) {
+    public List<OrderResponse> findOrdersByMemberId(Long memberId) {
         if (!memberRepository.existsById(memberId)) {
             throw new MemberNotFoundException("Member with ID " + memberId + " does not exist.");
         }

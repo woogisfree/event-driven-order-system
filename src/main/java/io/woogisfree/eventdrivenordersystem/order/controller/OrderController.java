@@ -41,7 +41,7 @@ public class OrderController {
 
     @GetMapping("/member/{memberId}")
     public ResponseEntity<ApiResponse<List<OrderResponse>>> findOrders(@PathVariable("memberId") Long memberId) {
-        List<OrderResponse> response = orderService.findOrders(memberId);
+        List<OrderResponse> response = orderService.findOrdersByMemberId(memberId);
         return new ResponseEntity<>(ApiResponse.success(response, "Orders found successfully"), HttpStatus.OK);
     }
 

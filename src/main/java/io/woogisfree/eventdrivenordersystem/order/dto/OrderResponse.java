@@ -1,14 +1,12 @@
 package io.woogisfree.eventdrivenordersystem.order.dto;
 
 import io.woogisfree.eventdrivenordersystem.order.domain.OrderStatus;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
+@ToString
 @Builder
 @Getter
 @NoArgsConstructor
@@ -21,6 +19,7 @@ public class OrderResponse {
     private OrderStatus status;
     private List<OrderItemResponse> orderItems;
 
+    @ToString
     @Builder
     @Getter
     @NoArgsConstructor
